@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "pyinit"
+version = "0.1.0"
+description = ""
+authors = ["Brad Kovaluk <bkovaluk@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Jinja2 = "^3.1.4"
+click = "^8.1.7"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.6.6"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

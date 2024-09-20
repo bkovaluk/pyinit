@@ -1,0 +1,32 @@
+# Makefile
+
+.PHONY: help install test lint format clean
+
+help:
+	@echo "{{ project_name }} - {{ description }}"
+	@echo "Available commands:"
+	@echo "  install    Install project dependencies"
+	@echo "  test       Run tests"
+	@echo "  lint       Lint the codebase"
+	@echo "  format     Format the codebase"
+	@echo "  clean      Clean build and cache files"
+
+install:
+	poetry install
+
+test:
+	poetry run pytest
+
+lint:
+	poetry run ruff .
+
+format:
+	poetry run ruff . --fix
+
+clean:
+	rm -rf __pycache__/
+	rm -rf build/
+	rm -rf dist/
+	rm -rf *.egg-info/
+	rm -rf .coverage
+
