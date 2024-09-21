@@ -16,12 +16,7 @@ def render_template(template_name, **context):
     template = env.get_template(template_name)
     return template.render(**context)
 
-@click.group()
-def cli():
-    """PyInit CLI Tool: Initialize a new Python project."""
-    pass
-
-@cli.command()
+@click.command()
 @click.argument('project_name')
 @click.option('--description', default='A new Python project.', help='Project description.')
 @click.option('--author', default='Your Name', help='Author name.')
@@ -31,8 +26,8 @@ def cli():
 @click.option('--git', is_flag=True, help='Initialize a Git repository.')
 @click.option('--ci', is_flag=True, help='Set up GitHub Actions workflow and Dependabot.')
 @click.option('--interactive', is_flag=True, help='Run poetry init interactively.')
-def init(project_name, description, author, email, license, venv, git, ci, interactive):
-    """Initialize a new Python project."""
+def cli(project_name, description, author, email, license, venv, git, ci, interactive):
+    """PyInit CLI Tool: Initialize a new Python project."""
     
     # Define the project directory path
     project_dir = os.path.abspath(project_name)
@@ -92,9 +87,6 @@ def init(project_name, description, author, email, license, venv, git, ci, inter
             f.write(rendered_content)
         click.echo(f"Created file: {output_path}")
     
-    # Remove pyproject.toml template as we're using poetry init
-    # No action needed since it's not included in the templates
-    
     # Optionally run poetry init
     poetry_init_cmd = ['poetry', 'init']
     if not interactive:
@@ -139,7 +131,6 @@ def init(project_name, description, author, email, license, venv, git, ci, inter
             click.echo(f"Git initialization failed: {e}")
     
     click.echo(f"\nProject '{project_name}' has been successfully initialized!")
-
+    
 if __name__ == '__main__':
     cli()
-
