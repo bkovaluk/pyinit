@@ -1,4 +1,6 @@
-# PyInit
+# PyInit ![Lint](https://github.com/bkovaluk/pyinit/actions/workflows/lint.yml/badge.svg) | ![Test](https://github.com/bkovaluk/pyinit/actions/workflows/test.yml/badge.svg)
+
+
 
 PyInit is a powerful command-line tool designed to streamline the creation of new Python projects with a standardized and customizable structure. By automating the setup process, PyInit allows developers to focus on writing code rather than configuring their projects from scratch.
 
