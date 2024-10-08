@@ -1,9 +1,52 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""
+PyInit CLI Tool: Initialize a new Python project.
+
+This script creates a new Python project with the specified configurations.
+
+Description:
+- Creates a new project directory with the specified name.
+- Renders template files (e.g., README.md, LICENSE) using Jinja2 templates.
+- Optionally initializes a virtual environment and installs dependencies.
+- Optionally initializes a Git repository and makes the initial commit.
+- Optionally sets up CI/CD configurations using GitHub Actions and Dependabot.
+
+Arguments:
+- project_name: Name of the project directory to create.
+
+Options:
+- --description: Project description. Default is 'A new Python project.'.
+- --author: Author name. Default is 'Your Name'.
+- --email: Author email. Default is 'you@example.com'.
+- --license: License type. Choices are 'MIT', 'Apache-2.0', 'GPL-3.0'. Default is 'MIT'.
+- --venv: If provided, creates a virtual environment in the project directory.
+- --git: If provided, initializes a Git repository in the project directory.
+- --ci: If provided, sets up GitHub Actions workflow and Dependabot configuration.
+- --interactive: If provided, runs 'poetry init' interactively.
+
+Usage:
+- Run the script with the required arguments and options.
+
+Example:
+python script.py my_project --author "John Doe" --email "john@example.com" --license MIT --venv --git --ci
+"""
+
+__author__ = "Bradley Kovaluk"
+__email__ = "bkovaluk@gmail.com"
+__description__ = "Initialize a new Python project with optional configurations."
+__version__ = "0.1.0"
+__date__ = "2024-10-08"
+__license__ = "MIT"
+
 import os
-import click
-import shutil
 import subprocess
 from datetime import datetime
+from enum import Enum
+
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+import typer
 
 # Initialize Jinja2 environment
 env = Environment(
@@ -16,17 +59,25 @@ def render_template(template_name, **context):
     template = env.get_template(template_name)
     return template.render(**context)
 
-@click.command()
-@click.argument('project_name')
-@click.option('--description', default='A new Python project.', help='Project description.')
-@click.option('--author', default='Your Name', help='Author name.')
-@click.option('--email', default='you@example.com', help='Author email.')
-@click.option('--license', default='MIT', type=click.Choice(['MIT', 'Apache-2.0', 'GPL-3.0']), help='License type.')
-@click.option('--venv', is_flag=True, help='Create a virtual environment.')
-@click.option('--git', is_flag=True, help='Initialize a Git repository.')
-@click.option('--ci', is_flag=True, help='Set up GitHub Actions workflow and Dependabot.')
-@click.option('--interactive', is_flag=True, help='Run poetry init interactively.')
-def cli(project_name, description, author, email, license, venv, git, ci, interactive):
+class LicenseType(str, Enum):
+    MIT = 'MIT'
+    Apache = 'Apache-2.0'
+    GPL = 'GPL-3.0'
+
+app = typer.Typer()
+
+@app.command()
+def cli(
+    project_name: str = typer.Argument(..., help='Name of the project'),
+    description: str = typer.Option('A new Python project.', help='Project description.'),
+    author: str = typer.Option('Your Name', help='Author name.'),
+    email: str = typer.Option('you@example.com', help='Author email.'),
+    license: LicenseType = typer.Option(LicenseType.MIT, help='License type.'),
+    venv: bool = typer.Option(False, help='Create a virtual environment.'),
+    git: bool = typer.Option(False, help='Initialize a Git repository.'),
+    ci: bool = typer.Option(False, help='Set up GitHub Actions workflow and Dependabot.'),
+    interactive: bool = typer.Option(False, help='Run poetry init interactively.')
+):
     """PyInit CLI Tool: Initialize a new Python project."""
     
     # Define the project directory path
@@ -34,12 +85,12 @@ def cli(project_name, description, author, email, license, venv, git, ci, intera
     
     # Check if the project directory already exists
     if os.path.exists(project_dir):
-        click.echo(f"Error: Directory '{project_dir}' already exists.")
-        return
+        typer.echo(f"Error: Directory '{project_dir}' already exists.")
+        raise typer.Exit(code=1)
     
     # Create the main project directory
     os.makedirs(project_dir)
-    click.echo(f"Created project directory: {project_dir}")
+    typer.echo(f"Created project directory: {project_dir}")
     
     # Context for templates
     context = {
@@ -47,7 +98,7 @@ def cli(project_name, description, author, email, license, venv, git, ci, intera
         'description': description,
         'author': author,
         'email': email,
-        'license': license,
+        'license': license.value,
         'year': datetime.now().year
     }
     
@@ -73,7 +124,7 @@ def cli(project_name, description, author, email, license, venv, git, ci, intera
     
     for subdir in subdirs:
         os.makedirs(subdir, exist_ok=True)
-        click.echo(f"Created directory: {subdir}")
+        typer.echo(f"Created directory: {subdir}")
     
     # Render and write template files
     for template_file, output_file in templates.items():
@@ -85,32 +136,32 @@ def cli(project_name, description, author, email, license, venv, git, ci, intera
         
         with open(output_path, 'w') as f:
             f.write(rendered_content)
-        click.echo(f"Created file: {output_path}")
+        typer.echo(f"Created file: {output_path}")
     
     # Optionally run poetry init
     poetry_init_cmd = ['poetry', 'init']
     if not interactive:
         poetry_init_cmd.append('--no-interaction')
     
-    click.echo("Initializing Poetry...")
+    typer.echo("Initializing Poetry...")
     try:
         subprocess.run(poetry_init_cmd, cwd=project_dir, check=True)
-        click.echo("Poetry initialization completed.")
+        typer.echo("Poetry initialization completed.")
     except subprocess.CalledProcessError as e:
-        click.echo(f"Error during Poetry initialization: {e}")
-        return
+        typer.echo(f"Error during Poetry initialization: {e}")
+        raise typer.Exit(code=1)
     
     # Optionally set up CI/CD configurations
     if ci:
-        click.echo("CI/CD configurations already set up via templates.")
+        typer.echo("CI/CD configurations already set up via templates.")
         # No additional action needed since ci.yml and dependabot.yml are rendered above
     
     # Optionally create a virtual environment and install dependencies
     if venv:
         venv_path = os.path.join(project_dir, 'venv')
-        click.echo("Creating virtual environment...")
+        typer.echo("Creating virtual environment...")
         subprocess.run([os.sys.executable, '-m', 'venv', venv_path], check=True)
-        click.echo(f"Created virtual environment at '{venv_path}'")
+        typer.echo(f"Created virtual environment at '{venv_path}'")
         
         # Define the path to the pip executable
         pip_executable = os.path.join(venv_path, 'bin', 'pip') if os.name != 'nt' else os.path.join(venv_path, 'Scripts', 'pip.exe')
@@ -118,7 +169,7 @@ def cli(project_name, description, author, email, license, venv, git, ci, intera
         # Upgrade pip and install dependencies
         subprocess.run([pip_executable, 'install', '--upgrade', 'pip'], check=True)
         subprocess.run([pip_executable, 'install', '-r', os.path.join(project_dir, 'requirements.txt')], check=True)
-        click.echo("Installed project dependencies.")
+        typer.echo("Installed project dependencies.")
     
     # Optionally initialize a Git repository
     if git:
@@ -126,11 +177,11 @@ def cli(project_name, description, author, email, license, venv, git, ci, intera
             subprocess.run(['git', 'init'], cwd=project_dir, check=True)
             subprocess.run(['git', 'add', '.'], cwd=project_dir, check=True)
             subprocess.run(['git', 'commit', '-m', 'Initial commit'], cwd=project_dir, check=True)
-            click.echo("Initialized Git repository and made the initial commit.")
+            typer.echo("Initialized Git repository and made the initial commit.")
         except subprocess.CalledProcessError as e:
-            click.echo(f"Git initialization failed: {e}")
+            typer.echo(f"Git initialization failed: {e}")
     
-    click.echo(f"\nProject '{project_name}' has been successfully initialized!")
-    
+    typer.echo(f"\nProject '{project_name}' has been successfully initialized!")
+
 if __name__ == '__main__':
-    cli()
+    app()
