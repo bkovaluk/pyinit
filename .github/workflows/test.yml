@@ -14,7 +14,7 @@ jobs:
       matrix:
         python-version: ['3.11']
     env:
-      PACKAGE: pyinit
+      PACKAGE: potara
 
     steps:
       - name: Check out repository code

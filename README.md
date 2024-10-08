@@ -1,8 +1,8 @@
-# PyInit ![Lint](https://github.com/bkovaluk/pyinit/actions/workflows/lint.yml/badge.svg) | ![Test](https://github.com/bkovaluk/pyinit/actions/workflows/test.yml/badge.svg)
+# Potara ![Lint](https://github.com/bkovaluk/potara/actions/workflows/lint.yml/badge.svg) | ![Test](https://github.com/bkovaluk/potara/actions/workflows/test.yml/badge.svg)
 
 
 
-PyInit is a powerful command-line tool designed to streamline the creation of new Python projects with a standardized and customizable structure. By automating the setup process, PyInit allows developers to focus on writing code rather than configuring their projects from scratch.
+Potara is a powerful command-line tool designed to streamline the creation of new Python projects with a standardized and customizable structure. By automating the setup process, Potara allows developers to focus on writing code rather than configuring their projects from scratch.
 
 ## Features
 
@@ -16,7 +16,7 @@ PyInit is a powerful command-line tool designed to streamline the creation of ne
 
 ## Installation
 
-To install **PyInit**, follow these steps:
+To install **Potara**, follow these steps:
 
 ### Prerequisites
 
@@ -30,11 +30,11 @@ Ensure you have the following installed on your system:
 
 1. **Clone the Repository:**
 
-    Navigate to your desired directory and clone the PyInit repository.
+    Navigate to your desired directory and clone the Potara repository.
 
     ~~~bash
-    git clone https://github.com/yourusername/pyinit.git
-    cd pyinit
+    git clone https://github.com/yourusername/potara.git
+    cd potara
     ~~~
 
 2. **Install Dependencies:**
@@ -53,9 +53,9 @@ Ensure you have the following installed on your system:
     poetry shell
     ~~~
 
-4. **(Optional) Install PyInit Globally:**
+4. **(Optional) Install Potara Globally:**
 
-    If you wish to use PyInit as a global command-line tool, install it in editable mode.
+    If you wish to use Potara as a global command-line tool, install it in editable mode.
 
     ~~~bash
     poetry install --editable
@@ -63,12 +63,12 @@ Ensure you have the following installed on your system:
 
 ## Usage
 
-Initialize a new Python project by running the `pyinit` command followed by your desired project name.
+Initialize a new Python project by running the `potara` command followed by your desired project name.
 
 ### Basic Usage
 
 ~~~bash
-pyinit my_project
+potara my_project
 ~~~
 
 This command will create a new directory named `my_project` with a standardized Python project structure.
@@ -87,7 +87,7 @@ This command will create a new directory named `my_project` with a standardized 
 ### Example with All Options
 
 ~~~bash
-pyinit awesome_app --description "An awesome Python application." --author "Alice Smith" --email "alice.smith@example.com" --license MIT --venv --git --ci --interactive
+potara awesome_app --description "An awesome Python application." --author "Alice Smith" --email "alice.smith@example.com" --license MIT --venv --git --ci --interactive
 ~~~
 
 This command will:
@@ -101,7 +101,7 @@ This command will:
 
 ## Project Structure
 
-Upon initialization, PyInit sets up the following project structure:
+Upon initialization, Potara sets up the following project structure:
 
 ~~~plaintext
 awesome_app/
@@ -124,11 +124,11 @@ awesome_app/
 
 ## Testing
 
-PyInit includes test cases to ensure that the project initialization works as expected.
+Potara includes test cases to ensure that the project initialization works as expected.
 
 ### Running Tests
 
-To run the tests, navigate to the PyInit project directory and execute:
+To run the tests, navigate to the Potara project directory and execute:
 
 ~~~bash
 pytest
@@ -143,8 +143,8 @@ Contributions are welcome! Please follow these steps to contribute:
 1. **Fork the Repository:**
 
     ~~~bash
-    git clone https://github.com/yourusername/pyinit.git
-    cd pyinit
+    git clone https://github.com/yourusername/potara.git
+    cd potara
     ~~~
 
 2. **Create a New Branch:**

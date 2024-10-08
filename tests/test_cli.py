@@ -3,7 +3,7 @@ import tempfile
 
 from typer.testing import CliRunner
 
-from pyinit.cli import app
+from potara.cli import app
 
 
 def test_init():

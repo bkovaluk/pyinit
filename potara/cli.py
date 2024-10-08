@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-PyInit CLI Tool: Initialize a new Python project.
+Potara CLI Tool: Initialize a new Python project.
 
 This script creates a new Python project with the specified configurations.
 
@@ -31,7 +31,7 @@ Usage:
 - Run the script with the required arguments and options.
 
 Example:
-python script.py my_project --author "John Doe" --email "john@example.com" \
+python potara.py my_project --author "John Doe" --email "john@example.com" \
 --license MIT --venv --git --ci
 """
 
@@ -104,7 +104,7 @@ def cli(
         False, help="Run poetry init interactively."
     ),
 ):
-    """PyInit CLI Tool: Initialize a new Python project."""
+    """Potara CLI Tool: Initialize a new Python project."""
 
     # Define the project directory path
     project_dir = os.path.abspath(project_name)

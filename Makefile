@@ -1,5 +1,5 @@
 # Variables
-PACKAGE = pyinit
+PACKAGE = potara
 
 .PHONY: help install init format lint test coverage clean build run pre-commit
 

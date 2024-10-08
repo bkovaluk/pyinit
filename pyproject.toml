@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pyinit"
+name = "potara"
 version = "0.1.0"
 description = "A CLI tool to initialize new Python projects with a standardized structure."
 authors = ["Brad Kovaluk <bkovaluk@gmail.com>"]
@@ -19,7 +19,7 @@ pre-commit = "^4.0.1"
 pytest-cov = "^5.0.0"
 
 [tool.poetry.scripts]
-pyinit = "pyinit.cli:cli"
+potara = "potara.cli:cli"
 
 [build-system]
 requires = ["poetry-core"]
