@@ -9,11 +9,11 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.11"
 Jinja2 = "^3.1.4"
-typer = "^0.13.1"
+typer = "^0.15.1"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.8.0"
-pytest = "^8.3.3"
+ruff = "^0.8.1"
+pytest = "^8.3.4"
 coverage = "^7.6.8"
 pre-commit = "^4.0.1"
 pytest-cov = "^6.0.0"
